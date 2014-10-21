@@ -11,16 +11,16 @@ const handlers = [
 ];
 
 function parseHotkey(str) {
-    let m = /^(?:([acsm]+)-)?(.)$/.exec(str),
+    let m = /^(?:([amcs]+)-)?(.)$/.exec(str),
         mods = m[1] || "",
         keyName = m[2].toUpperCase();
 
     return {
-        keyName:  keyName,
+        keyName:  "DOM_VK_" + keyName,
         altKey:   mods.contains('a'),
         metaKey:  mods.contains('m'),
-        shiftKey: mods.contains('s'),
         ctrlKey:  mods.contains('c'),
+        shiftKey: mods.contains('s'),
     }
 }
 
@@ -38,7 +38,7 @@ function matches(ev, hotkey) {
     return (ev.altKey || ev.metaKey) == (hotkey.altKey || hotkey.metaKey) &&
            ev.shiftKey == hotkey.shiftKey &&
            ev.ctrlKey == hotkey.ctrlKey &&
-           ev["DOM_VK_" + hotkey.keyName] == ev.keyCode;
+           ev[hotkey.keyName] == ev.keyCode;
 }
 
 // template from here: http://www.oxymoronical.com/blog/2011/01/Playing-with-windows-in-restartless-bootstrapped-extensions
