@@ -7,6 +7,20 @@ const handlers = [
     }},
     { hotkey: parseHotkey('a-j'), handle: function prevTab(window) {
         window.gBrowser.tabContainer.advanceSelectedTab(-1, true);
+    }},
+    { hotkey: parseHotkey('ac-k'), handle: function moveTabRight(window) {
+        // from VimFx 
+        let idx = window.gBrowser.tabContainer.selectedIndex;
+        window.gBrowser.moveTabForward();
+        if (window.gBrowser.tabContainer.selectedIndex == idx)
+            window.gBrowser.moveTabToStart();
+    }},
+    { hotkey: parseHotkey('ac-j'), handle: function moveTabLeft(window) {
+        // from VimFx 
+        let idx = window.gBrowser.tabContainer.selectedIndex;
+        window.gBrowser.moveTabBackward();
+        if (window.gBrowser.tabContainer.selectedIndex == idx)
+            window.gBrowser.moveTabToEnd();
     }}
 ];
 
@@ -26,10 +40,11 @@ function parseHotkey(str) {
 
 function handleKeyEvent(ev) {
     let window = this;
-    handlers.forEach(function(h) {
+    handlers.some(function(h) {
         if (matches(ev, h.hotkey)) {
             h.handle(window);
             ev.preventDefault();
+            return true;
         }
     });
 }
