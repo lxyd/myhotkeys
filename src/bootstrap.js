@@ -1,6 +1,11 @@
 const Cc = Components.classes
 const Ci = Components.interfaces
 
+const names = {
+    '.': 'period',
+    ',': 'comma',
+}
+
 const handlers = [
     { hotkey: parseHotkey('a-k'), handle: function nextTab(window) {
         window.gBrowser.tabContainer.advanceSelectedTab(1, true)
@@ -27,7 +32,7 @@ const handlers = [
 function parseHotkey(str) {
     let m = /^(?:([amcs]+)-)?(.)$/.exec(str),
         mods = m[1] || "",
-        keyName = m[2].toUpperCase()
+        keyName = (names[m[2]] || m[2]).toUpperCase()
 
     return {
         keyName:  "DOM_VK_" + keyName,
