@@ -7,6 +7,9 @@ const names = {
 }
 
 const handlers = [
+    { hotkey: parseHotkey('a-n'), handle: function newTab(window) {
+        window.gBrowser.selectedTab = window.gBrowser.addTab("about:blank")
+    }},
     { hotkey: parseHotkey('a-k'), handle: function nextTab(window) {
         window.gBrowser.tabContainer.advanceSelectedTab(1, true)
     }},
