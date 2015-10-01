@@ -30,6 +30,12 @@ const handlers = [
         if (window.gBrowser.tabContainer.selectedIndex == idx)
             window.gBrowser.moveTabToEnd()
     }},
+    { hotkey: parseHotkey('a-.'), handle: function nextPage(window) {
+        // TODO: find a with title or text like "next", ">" etc
+    }},
+    { hotkey: parseHotkey('a-,'), handle: function prevPage(window) {
+
+    }},
 ]
 
 function parseHotkey(str) {
@@ -48,13 +54,15 @@ function parseHotkey(str) {
 
 function handleKeyEvent(ev) {
     let window = this
-    handlers.some(function(h) {
+    if (handlers.some(function(h) {
         if (matches(ev, h.hotkey)) {
             h.handle(window)
             ev.preventDefault()
             return true
         }
-    })
+    })) {
+        ev.stopImmediatePropagation()
+    }
 }
 
 function matches(ev, hotkey) {
